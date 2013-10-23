@@ -176,7 +176,7 @@ int hprofFinishHeapDump(hprof_context_t *ctx);
 
 int hprofSetGcScanState(hprof_context_t *ctx,
                         hprof_heap_tag_t state, u4 threadSerialNumber);
-void hprofMarkRootObject(hprof_context_t *ctx,
+int hprofMarkRootObject(hprof_context_t *ctx,
                          const Object *obj, jobject jniObj);
 
 int hprofDumpHeapObject(hprof_context_t *ctx, const Object *obj);

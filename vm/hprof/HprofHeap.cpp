@@ -119,14 +119,14 @@ static hprof_basic_type primitiveToBasicTypeAndSize(PrimitiveType prim,
  * only true when marking the root set or unreachable
  * objects.  Used to add rootset references to obj.
  */
-void hprofMarkRootObject(hprof_context_t *ctx, const Object *obj,
-                         jobject jniObj)
+int hprofMarkRootObject(hprof_context_t *ctx, const Object *obj, jobject jniObj)
 {
     hprof_record_t *rec = &ctx->curRec;
+    int err = 0;
     hprof_heap_tag_t heapTag = (hprof_heap_tag_t)ctx->gcScanState;
 
     if (heapTag == 0) {
-        return;
+        return 0;
     }
 
     if (ctx->objectsInSegment >= OBJECTS_PER_SEGMENT ||
@@ -197,10 +197,13 @@ void hprofMarkRootObject(hprof_context_t *ctx, const Object *obj,
         break;
 
     default:
+        err = 0;
         break;
     }
 
     ctx->objectsInSegment++;
+
+    return err;
 }
 
 static int stackTraceSerialNumber(const void *obj)

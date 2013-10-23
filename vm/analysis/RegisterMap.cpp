@@ -508,8 +508,9 @@ static bool verifyMap(VerifierData* vdata, const RegisterMap* pMap)
             /* shouldn't happen */
             ALOGE("GLITCH: bad format (%d)", format);
             dvmAbort();
-            /* Make compiler happy */
-            addr = 0;
+            // unreached, but the compiler doesn't know because it
+            // isn't marked noreturn
+            return false;
         }
 
         const RegType* regs = vdata->registerLines[addr].regTypes;
